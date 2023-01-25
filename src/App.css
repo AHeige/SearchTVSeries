@@ -88,6 +88,7 @@ body {
 
 .show-card-item {
   display: grid;
+  cursor: pointer;
 }
 
 .show-details {
@@ -129,6 +130,7 @@ body {
   background-color: #161616;
   font-size: 12px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .cast-details p {
