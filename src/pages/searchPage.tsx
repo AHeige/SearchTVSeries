@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 
 //Components
 import Search from '../components/search'
-const searchPage = () => {
+const SearchPage = () => {
   return (
     <>
-      <main>
-        <Search />
-      </main>
+      <Search />
     </>
   )
 }
 
-export default searchPage
+export default SearchPage

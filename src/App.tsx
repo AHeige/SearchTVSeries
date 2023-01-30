@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './App.css'
 
 //Components
-import Search from './components/search'
+
+import SearchPage from './pages/searchPage'
 
 function App() {
   return (
     <>
-      <Search />
+      <SearchPage />
     </>
   )
 }

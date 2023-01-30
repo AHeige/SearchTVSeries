@@ -81,9 +81,8 @@ body {
 
 .show-card-wrapper {
   display: grid;
-  grid-template-columns: 45vw 45vw;
-  grid-gap: 5vw;
-  padding: 2vw;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2vw;
 }
 
 .show-card-item {
@@ -168,7 +167,13 @@ p {
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 800px) {
+  .show-card-wrapper {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media only screen and (min-width: 1121px) {
   .header {
     flex-direction: row;
   }
@@ -177,8 +182,6 @@ p {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 2vw;
-    padding-left: 20vw;
-    padding-right: 20vw;
   }
 
   .show-card-item {

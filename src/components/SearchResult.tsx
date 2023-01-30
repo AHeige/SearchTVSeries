@@ -7,6 +7,7 @@ import { CastType } from '../interfaces/CastType'
 
 //Components
 import Loading from './loading'
+import GetImage from './getImage'
 
 //Services
 import castService from '../services/castService'
@@ -46,15 +47,6 @@ const SearchResult = ({
     }
   }
 
-  const getImage = (searchObject: SearchObject): string => {
-    const noImg =
-      'https://static.tvmaze.com/images/no-img/no-img-portrait-text.png'
-
-    const url = searchObject.show.image ? searchObject.show.image.medium : noImg
-
-    return url
-  }
-
   const getCastImage = (castObject: CastType): string => {
     const noImg =
       'https://static.tvmaze.com/images/no-img/no-img-portrait-text.png'
@@ -69,28 +61,36 @@ const SearchResult = ({
   return (
     <>
       {!showDetails && (
-        <div className='show-card-wrapper'>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            results.map((values, i) => {
-              const show = values.show
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}
+        >
+          <div className='show-card-wrapper'>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              results.map((values, i) => {
+                const show = values.show
 
-              return (
-                <div
-                  className='show-card-item'
-                  onClick={() => handleClickedShow(values)}
-                  key={i}
-                >
-                  <img style={{ width: '100%' }} src={getImage(values)} />
-                  <h4>{show.name}</h4>
-                  {show.rating.average && (
-                    <p>Rating: {show.rating.average + '/10'}</p>
-                  )}
-                </div>
-              )
-            })
-          )}
+                return (
+                  <div
+                    className='show-card-item'
+                    onClick={() => handleClickedShow(values)}
+                    key={i}
+                  >
+                    <GetImage searchObject={values} />
+                    <h4>{show.name}</h4>
+                    {show.rating.average && (
+                      <p>Rating: {show.rating.average + '/10'}</p>
+                    )}
+                  </div>
+                )
+              })
+            )}
+          </div>
         </div>
       )}
       {clickedShow && showDetails && (
@@ -134,7 +134,7 @@ const SearchResult = ({
               </div>
             </div>
             <div>
-              <img src={getImage(clickedShow)} />
+              <GetImage searchObject={clickedShow} />
             </div>
           </div>
           <div className='cast'>
