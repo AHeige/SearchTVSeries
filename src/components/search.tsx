@@ -3,13 +3,6 @@ import React, { useState, useEffect } from 'react'
 //Logo
 import tvLogo from '../assets/tvLogo.png'
 
-//Types
-import SearchResultTypes from '../interfaces/SearchResultTypes'
-
-export interface Search {
-  query?: string
-}
-
 //TS needs a specified form element
 export interface FormElement extends HTMLFormControlsCollection {
   searchInput: HTMLInputElement
@@ -19,16 +12,24 @@ export interface SearchForm extends HTMLFormElement {
   readonly elements: FormElement
 }
 
-//Components
-import SearchResult from './SearchResult'
-import searchService from '../services/searchService'
-import Loading from './loading'
+//Interfaces
+import { SearchObject } from '../interfaces/SearchObject'
 
-const Search: React.FC<Search> = ({ query }): JSX.Element => {
+//Services
+import searchService from '../services/searchService'
+
+//Components
+import Loading from './loading'
+import SearchResult from './SearchResult'
+import ShowCard from './ShowCard'
+
+const Search: React.FC = (): JSX.Element => {
   //States
-  const [searchQuery, setSearchQuery] = useState<string>(query ? '' : '')
-  const [searchResult, setSearchResult] = useState<Promise<SearchResultTypes>>()
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [searchResult, setSearchResult] = useState<Promise<SearchObject[]>>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [clickedShow, setClickedShow] = useState<SearchObject>()
+  const [showDetails, setShowDetails] = useState<boolean>(false)
 
   const handleFormSubmit = (e: React.FormEvent<SearchForm>) => {
     e.preventDefault()
@@ -83,12 +84,17 @@ const Search: React.FC<Search> = ({ query }): JSX.Element => {
       {loading ? (
         <Loading />
       ) : (
-        searchResult && (
+        searchResult &&
+        !clickedShow && (
           <SearchResult
             response={searchResult}
             loading={loading}
+            setClickedShow={setClickedShow}
           ></SearchResult>
         )
+      )}
+      {clickedShow && (
+        <ShowCard clickedShow={clickedShow} setShowDetails={setShowDetails} />
       )}
     </>
   )
