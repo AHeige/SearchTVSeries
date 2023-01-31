@@ -12,9 +12,9 @@ import GetImage from './ShowImage'
 type Result = SearchObject[]
 
 const SearchResult = ({
-  response,
+  searchResult: response,
   loading,
-  setClickedShow,
+  handleChosenShow,
 }: SearchResultTypes): JSX.Element => {
   //States
   const [isLoading, setIsLoading] = useState<boolean>(loading)
@@ -22,7 +22,7 @@ const SearchResult = ({
   const results: Result = Object.values(response)
 
   const handleClickedShow = (values: SearchObject) => {
-    setClickedShow(values)
+    handleChosenShow(values)
   }
 
   return (

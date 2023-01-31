@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from 'axios'
+import { SearchObject } from '../interfaces/SearchObject'
 
 const searchService = async (query: string) => {
   try {
+    console.log('fetching data from api...')
     const response = await axios.get(
       `https://api.tvmaze.com/search/shows?q=${query}`
     )
-    return response.data
+    return response
   } catch (error) {
     console.error(error)
   }

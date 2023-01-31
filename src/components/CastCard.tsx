@@ -32,10 +32,10 @@ const CastCard = ({ values }: Props) => {
   const getCast = async (values: SearchObject) => {
     if (values) {
       setIsLoading(true)
-      let result: CastType[] = await castService(values.show.id)
-      if (result) {
+      let result = await castService(values.show.id)
+      if (result && result.status === 200) {
         setIsLoading(false)
-        setCast(result)
+        setCast(result.data)
       }
     }
   }
@@ -79,7 +79,9 @@ const CastCard = ({ values }: Props) => {
                 </p>
               </div>
             ))}
-          {cast && cast.length < 1 && <p>No information about cast yet!</p>}
+          {((cast && cast.length < 1) || !cast) && (
+            <p>No information about cast yet!</p>
+          )}
         </div>
       )}
     </div>

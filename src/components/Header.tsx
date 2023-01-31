@@ -35,6 +35,7 @@ const Header: FC<Props> = ({ searchQuery, handleFormSubmit }) => {
               type='text'
               placeholder='Search for TV shows'
               className='search-input'
+              defaultValue={searchQuery ? searchQuery : undefined}
             ></input>
             <button type='submit' className='search-Btn'>
               Search
