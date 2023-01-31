@@ -7,7 +7,7 @@ import { CastType } from '../interfaces/CastType'
 
 //Components
 import Loading from './loading'
-import GetImage from './getImage'
+import GetImage from './ShowImage'
 
 type Result = SearchObject[]
 

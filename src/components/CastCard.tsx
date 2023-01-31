@@ -41,10 +41,7 @@ const CastCard = ({ values }: Props) => {
   }
 
   useEffect(() => {
-    if (!cast) {
-      getCast(values)
-      console.log('useEffect')
-    }
+    getCast(values)
   }, [])
 
   return (

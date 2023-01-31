@@ -83,10 +83,12 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 2vw;
+  padding: 1em;
 }
 
 .show-card-item {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 }
 
@@ -137,7 +139,8 @@ body {
 }
 
 .show-card-item {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 .show-card-item h4,
@@ -185,7 +188,8 @@ p {
   }
 
   .show-card-item {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 
   .show-card-item h4,

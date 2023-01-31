@@ -14,20 +14,16 @@ import './index.css'
 import App from './App'
 
 //Components
-import Search from './components/search'
+import SearchPage from './pages/searchPage'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
-      <Route path='/search' element={<Search />}></Route>
+      <Route path='/search' element={<SearchPage />}></Route>
     </Route>
   )
 )
 
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-)
+root.render(<RouterProvider router={router} />)

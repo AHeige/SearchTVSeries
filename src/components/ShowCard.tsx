@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 
 //Utils
-import GetImage from './getImage'
+import GetImage from './ShowImage'
 
 //Interfaces
 import { SearchObject } from '../interfaces/SearchObject'
@@ -9,14 +9,14 @@ import CastCard from './CastCard'
 
 interface Props {
   clickedShow: SearchObject
-  setShowDetails: React.Dispatch<React.SetStateAction<boolean>>
+  setClickedShow: React.Dispatch<React.SetStateAction<SearchObject | undefined>>
 }
 
-const ShowCard: FC<Props> = ({ clickedShow, setShowDetails }): JSX.Element => {
+const ShowCard: FC<Props> = ({ clickedShow, setClickedShow }): JSX.Element => {
   return (
     clickedShow && (
       <div className='show-details'>
-        <div onClick={() => setShowDetails(false)} className='go-back-box'>
+        <div onClick={() => setClickedShow(undefined)} className='go-back-box'>
           <p>
             <span style={{ fontSize: '17px' }}>&#8592;</span> Back to search
             results
