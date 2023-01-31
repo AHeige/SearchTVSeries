@@ -4,7 +4,6 @@ import { SearchObject } from '../interfaces/SearchObject'
 
 const searchService = async (query: string) => {
   try {
-    console.log('fetching data from api...')
     const response = await axios.get(
       `https://api.tvmaze.com/search/shows?q=${query}`
     )

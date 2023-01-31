@@ -33,6 +33,7 @@ const SearchPage: React.FC = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false)
   const [chosenShow, setChosenShow] = useState<SearchObject>()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [hasSearced, setHasSearched] = useState<boolean>(false)
 
   const handleFormSubmit = (e: React.FormEvent<SearchForm>) => {
     e.preventDefault()
@@ -41,7 +42,8 @@ const SearchPage: React.FC = (): JSX.Element => {
     if (submitValue.length <= 1) {
       return
     }
-
+    setChosenShow(undefined)
+    setHasSearched(true)
     handleGetSearch(submitValue)
     setSearchQuery(submitValue)
     setSearchParams({ search: submitValue })
@@ -51,15 +53,14 @@ const SearchPage: React.FC = (): JSX.Element => {
     const params = getSearchParams(searchParams)
 
     if (params.searchParams || params.showParams) {
-      console.log('searchParams')
+      setHasSearched(true)
 
       if (params.searchParams) {
-        console.log('broad search')
         handleGetSearch(params.searchParams)
         setSearchQuery(params.searchParams)
       }
+
       if (params.showParams) {
-        console.log('narrow search')
         getChosenShow(params.showParams)
       }
     }
@@ -68,10 +69,8 @@ const SearchPage: React.FC = (): JSX.Element => {
   const handleGetSearch = async (search: string) => {
     setLoading(true)
     const result = await searchService(search)
-    console.log('getting result')
 
     if (result && result.status === 200) {
-      console.log('using the result')
       setLoading(false)
       setSearchResult(result.data)
     }
@@ -93,7 +92,6 @@ const SearchPage: React.FC = (): JSX.Element => {
         score: 1,
         show: result.data,
       }
-      setSearchQuery(show.show.name)
       setLoading(false)
       setChosenShow(show)
     }
@@ -107,7 +105,11 @@ const SearchPage: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Header searchQuery={searchQuery} handleFormSubmit={handleFormSubmit} />
+      <Header
+        hasSearched={hasSearced}
+        searchQuery={searchQuery}
+        handleFormSubmit={handleFormSubmit}
+      />
       {loading ? (
         <Loading />
       ) : (

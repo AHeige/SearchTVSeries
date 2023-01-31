@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import tvLogo from '../assets/tvLogo.png'
 
 interface Props {
+  hasSearched: boolean
   searchQuery: string
   handleFormSubmit: (e: React.FormEvent<SearchForm>) => void
 }
@@ -17,9 +18,9 @@ export interface SearchForm extends HTMLFormElement {
   readonly elements: FormElement
 }
 
-const Header: FC<Props> = ({ searchQuery, handleFormSubmit }) => {
+const Header: FC<Props> = ({ hasSearched, searchQuery, handleFormSubmit }) => {
   return (
-    <div className={searchQuery.length > 1 ? 'header' : 'header-startup'}>
+    <div className={hasSearched ? 'header' : 'header-startup'}>
       <div className='header-item'>
         <img src={tvLogo} alt='logo'></img>
       </div>
