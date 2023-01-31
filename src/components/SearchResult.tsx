@@ -32,6 +32,7 @@ const SearchResult = ({
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
+          width: '50%',
         }}
       >
         <div className='show-card-wrapper'>

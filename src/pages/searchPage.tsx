@@ -115,11 +115,19 @@ const SearchPage: React.FC = (): JSX.Element => {
       ) : (
         searchResult &&
         !chosenShow && (
-          <SearchResult
-            searchResult={searchResult}
-            loading={loading}
-            handleChosenShow={handleChosenShow}
-          ></SearchResult>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            <SearchResult
+              searchResult={searchResult}
+              loading={loading}
+              handleChosenShow={handleChosenShow}
+            ></SearchResult>
+          </div>
         )
       )}
       {chosenShow && (
