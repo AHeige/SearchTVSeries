@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Loading = (): JSX.Element => {
+const Loading = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div id='loading'></div>

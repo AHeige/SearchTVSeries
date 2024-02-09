@@ -1,25 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 //Interfaces
-import SearchResultTypes from '../interfaces/SearchResultTypes'
 import { SearchObject } from '../interfaces/SearchObject'
-import { CastType } from '../interfaces/CastType'
 
 //Components
 import Loading from './loading'
 import GetImage from './ShowImage'
 
-type Result = SearchObject[]
+interface Props {
+  searchResult: SearchObject[]
+  loading: boolean
+  handleChosenShow: (chosenShow: SearchObject) => void
+}
 
-const SearchResult = ({
-  searchResult: response,
-  loading,
-  handleChosenShow,
-}: SearchResultTypes): JSX.Element => {
+const SearchResult: React.FC<Props> = ({ searchResult: response, loading, handleChosenShow }) => {
   //States
-  const [isLoading, setIsLoading] = useState<boolean>(loading)
 
-  const results: Result = Object.values(response)
+  const results: SearchObject[] = Object.values(response)
 
   const handleClickedShow = (values: SearchObject) => {
     handleChosenShow(values)
@@ -36,23 +33,17 @@ const SearchResult = ({
         }}
       >
         <div className='show-card-wrapper'>
-          {isLoading ? (
+          {loading ? (
             <Loading />
           ) : (
             results.map((values, i) => {
               const show = values.show
 
               return (
-                <div
-                  className='show-card-item'
-                  onClick={() => handleClickedShow(values)}
-                  key={i}
-                >
+                <div className='show-card-item' onClick={() => handleClickedShow(values)} key={i}>
                   <GetImage searchObject={values} />
                   <h4>{show.name}</h4>
-                  {show.rating.average && (
-                    <p>Rating: {show.rating.average + '/10'}</p>
-                  )}
+                  {show.rating.average && <p>Rating: {show.rating.average + '/10'}</p>}
                 </div>
               )
             })

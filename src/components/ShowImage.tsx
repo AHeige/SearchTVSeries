@@ -13,8 +13,7 @@ interface Props {
 const GetImage: FC<Props> = ({ searchObject }): JSX.Element => {
   const [loading, setIsLoading] = useState<boolean>(true)
 
-  const noImg =
-    'https://static.tvmaze.com/images/no-img/no-img-portrait-text.png'
+  const noImg = 'https://static.tvmaze.com/images/no-img/no-img-portrait-text.png'
 
   const url = searchObject.show.image ? searchObject.show.image.medium : noImg
 

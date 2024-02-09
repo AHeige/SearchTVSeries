@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React from 'react'
 
 //Utils
 import GetImage from './ShowImage'
@@ -10,25 +10,17 @@ import CastCard from './CastCard'
 interface Props {
   clickedShow: SearchObject
   setChosenShow: React.Dispatch<React.SetStateAction<SearchObject | undefined>>
-  searchResult: Promise<SearchObject[]> | undefined
+  searchResult: SearchObject[]
 }
 
-const ShowCard: FC<Props> = ({
-  clickedShow,
-  setChosenShow: setClickedShow,
-  searchResult,
-}): JSX.Element => {
+const ShowCard: React.FC<Props> = ({ clickedShow, setChosenShow: setClickedShow, searchResult }) => {
   return (
     clickedShow && (
       <div className='show-details'>
         {searchResult && (
-          <div
-            onClick={() => setClickedShow(undefined)}
-            className='go-back-box'
-          >
+          <div onClick={() => setClickedShow(undefined)} className='go-back-box'>
             <p>
-              <span style={{ fontSize: '17px' }}>&#8592;</span> Back to search
-              results
+              <span style={{ fontSize: '17px' }}>&#8592;</span> Back to search results
             </p>
           </div>
         )}
@@ -36,16 +28,10 @@ const ShowCard: FC<Props> = ({
         <div className='show-card-details'>
           <div className='description'>
             <div className='title'>
-              <h1 style={{ marginTop: 0, fontWeight: '600' }}>
-                {clickedShow.show.name}
-              </h1>
-              {clickedShow.show.rating.average && (
-                <p>Rating: {clickedShow.show.rating.average + '/10'}</p>
-              )}
+              <h1 style={{ marginTop: 0, fontWeight: '600' }}>{clickedShow.show.name}</h1>
+              {clickedShow.show.rating.average && <p>Rating: {clickedShow.show.rating.average + '/10'}</p>}
               <p>
-                <span style={{ color: '#fff', fontWeight: 'bold' }}>
-                  Genres:{' '}
-                </span>
+                <span style={{ color: '#fff', fontWeight: 'bold' }}>Genres: </span>
                 {clickedShow.show.genres.length ? (
                   clickedShow.show.genres.map((values, i) => {
                     if (clickedShow.show.genres.length - 1 === i) {

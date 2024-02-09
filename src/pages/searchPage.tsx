@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-//TS needs a specified form element
-export interface FormElement extends HTMLFormControlsCollection {
-  searchInput: HTMLInputElement
-}
-
-export interface SearchForm extends HTMLFormElement {
-  readonly elements: FormElement
-}
-
 //Interfaces
 import { SearchObject } from '../interfaces/SearchObject'
+import { SearchForm } from '../interfaces/Search'
 
 //Services
-import searchService from '../services/searchService'
-import showService from '../services/showService'
+import searchShowsService from '../services/searchService'
+import getShowService from '../services/showService'
 
 //Components
 import Loading from '../components/loading'
@@ -26,10 +18,10 @@ import Header from '../components/Header'
 //Utils
 import { getSearchParams } from '../utils/SearchParams'
 
-const SearchPage: React.FC = (): JSX.Element => {
+const SearchPage: React.FC = () => {
   //States
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [searchResult, setSearchResult] = useState<Promise<SearchObject[]>>()
+  const [searchResult, setSearchResult] = useState<SearchObject[]>()
   const [loading, setLoading] = useState<boolean>(false)
   const [chosenShow, setChosenShow] = useState<SearchObject>()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -68,11 +60,14 @@ const SearchPage: React.FC = (): JSX.Element => {
 
   const handleGetSearch = async (search: string) => {
     setLoading(true)
-    const result = await searchService(search)
 
-    if (result && result.status === 200) {
-      setLoading(false)
+    try {
+      const result = await searchShowsService(search)
       setSearchResult(result.data)
+      setLoading(false)
+    } catch (error) {
+      console.error(error)
+      setLoading(false)
     }
   }
 
@@ -86,14 +81,14 @@ const SearchPage: React.FC = (): JSX.Element => {
 
   const getChosenShow = async (search: string) => {
     setLoading(true)
-    const result = await showService(search)
-    if (result && result.status === 200) {
-      const show: SearchObject = {
-        score: 1,
-        show: result.data,
-      }
+
+    try {
+      const response = await getShowService(search)
       setLoading(false)
-      setChosenShow(show)
+      setChosenShow(response.data)
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
     }
   }
 
@@ -105,11 +100,7 @@ const SearchPage: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Header
-        hasSearched={hasSearced}
-        searchQuery={searchQuery}
-        handleFormSubmit={handleFormSubmit}
-      />
+      <Header hasSearched={hasSearced} searchQuery={searchQuery} handleFormSubmit={handleFormSubmit} />
       {loading ? (
         <Loading />
       ) : (
@@ -122,21 +113,11 @@ const SearchPage: React.FC = (): JSX.Element => {
               flexWrap: 'wrap',
             }}
           >
-            <SearchResult
-              searchResult={searchResult}
-              loading={loading}
-              handleChosenShow={handleChosenShow}
-            ></SearchResult>
+            <SearchResult searchResult={searchResult} loading={loading} handleChosenShow={handleChosenShow}></SearchResult>
           </div>
         )
       )}
-      {chosenShow && (
-        <ShowCard
-          clickedShow={chosenShow}
-          setChosenShow={setChosenShow}
-          searchResult={searchResult}
-        />
-      )}
+      {chosenShow && searchResult && <ShowCard clickedShow={chosenShow} setChosenShow={setChosenShow} searchResult={searchResult} />}
     </>
   )
 }

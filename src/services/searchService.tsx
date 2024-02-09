@@ -1,16 +1,13 @@
-import React from 'react'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { SearchObject } from '../interfaces/SearchObject'
 
-const searchService = async (query: string) => {
+const searchShowsService = async (query: string): Promise<AxiosResponse<SearchObject[]>> => {
   try {
-    const response = await axios.get(
-      `https://api.tvmaze.com/search/shows?q=${query}`
-    )
+    const response: AxiosResponse<SearchObject[]> = await axios.get(`https://api.tvmaze.com/search/shows?q=${query}`)
     return response
   } catch (error) {
-    console.error(error)
+    throw new Error(error)
   }
 }
 
-export default searchService
+export default searchShowsService

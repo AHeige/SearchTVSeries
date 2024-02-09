@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 //Interfaces
 import { CastType } from '../interfaces/CastType'
@@ -14,17 +14,14 @@ interface Props {
   values: SearchObject
 }
 
-const CastCard = ({ values }: Props) => {
+const CastCard: React.FC<Props> = ({ values }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [cast, setCast] = useState<CastType[]>()
 
   const getCastImage = (castObject: CastType): string => {
-    const noImg =
-      'https://static.tvmaze.com/images/no-img/no-img-portrait-text.png'
+    const noImg = 'https://static.tvmaze.com/images/no-img/no-img-portrait-text.png'
 
-    const url = castObject.character.image
-      ? castObject.character.image.medium
-      : noImg
+    const url = castObject.character.image ? castObject.character.image.medium : noImg
 
     return url
   }
@@ -32,10 +29,13 @@ const CastCard = ({ values }: Props) => {
   const getCast = async (values: SearchObject) => {
     if (values) {
       setIsLoading(true)
-      let result = await castService(values.show.id)
-      if (result && result.status === 200) {
+      try {
+        const result = await castService(values.show.id)
         setIsLoading(false)
         setCast(result.data)
+      } catch (error) {
+        console.error(error)
+        setIsLoading(false)
       }
     }
   }
@@ -70,18 +70,14 @@ const CastCard = ({ values }: Props) => {
                   gridTemplateColumns: '0.5fr 1fr',
                 }}
               >
-                <img style={{ width: '100%' }} src={getCastImage(values)} />
+                <img alt='Cast' style={{ width: '100%' }} src={getCastImage(values)} />
                 <p key={i}>
                   {values.person.name} <br />
-                  <span style={{ color: '#cccccc', fontSize: '0.7em' }}>
-                    as {values.character.name}
-                  </span>
+                  <span style={{ color: '#cccccc', fontSize: '0.7em' }}>as {values.character.name}</span>
                 </p>
               </div>
             ))}
-          {((cast && cast.length < 1) || !cast) && (
-            <p>No information about cast yet!</p>
-          )}
+          {((cast && cast.length < 1) || !cast) && <p>No information about cast yet!</p>}
         </div>
       )}
     </div>
